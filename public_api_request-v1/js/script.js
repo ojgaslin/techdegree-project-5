@@ -1,24 +1,27 @@
+let user;
 $.ajax({
   url: 'https://randomuser.me/api/?nat=us&results=12',
   dataType: 'json',
   success: function(data) {
     console.log('data');
     console.log(data);
+    user = data.results;
+    user.forEach(populateGallery());
   }
 });
 
 document.getElementsByClassName('search-container')[0].innerHTML ='<form action="#" method="get"><input type="search" id="search-input" class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit"></form>';
 //console.log(document.querySelectorAll('.search-container'));
-document.getElementById('gallery').innerHTML ='<div class="card"><div class="card-img-container"><img class="card-img" src="https://placehold.it/90x90" alt="profile picture"></div><div class="card-info-container"><h3 id="name" class="card-name cap">first last</h3><p class="card-text">email</p><p class="card-text cap">city, state</p></div></div>';
+
 
 function populateGallery() {
-forEach() {
-let div1 = document.createElement('div');
+document.getElementById('gallery').innerHTML ='<div class="card"><div class="card-img-container"><img class="card-img" src="https://placehold.it/90x90" alt="profile picture"></div><div class="card-info-container"><h3 id="name" class="card-name cap">first last</h3><p class="card-text">email</p><p class="card-text cap">city, state</p></div></div>';
+let div1 = $(document.createElement('div'));
 div1.addClass('modal-container');
-let div2 = document.createElement('div');
+let div2 = $(document.createElement('div'));
 div2.addClass('modal');
 div1.append(div2);
-button1 = document.createElement('button');
+button1 = $(document.createElement('button'));
 div2.append(button1);
 button1.attr({type:'button', id:'modal-close-btn', class:'modal-close-btn', });
 let strong = document.createElement('strong');
@@ -55,16 +58,18 @@ let p5 = document.createElement('p');
 p5.addClass('modal-text');
 p5.innerHTML='Birthday: 10/21/2015';
 div3.append(p5);
-}
 };
-let div4 = document.createElement('div');
+
+
+let div4 = $(document.createElement('div'));
+let div1 = document.createElement('div');
 div1.append(div4);
 div4.addClass('modal-btn-container');
-let button2 = document.createElement('button');
+let button2 = $(document.createElement('button'));
 button2.attr({type:'button', id:'modal-prev', class:'modal-prev btn'});
 button2.innerHTML='Prev';
 div4.append(button2);
-let button3 = document.createElement('button');
+let button3 = $(document.createElement('button'));
 button3.attr({type:'button', id:'modal-next', class:'modal-next btn'});
 button3.innerHTML='Next';
 div4.append(button3);
