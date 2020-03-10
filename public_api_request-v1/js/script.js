@@ -1,20 +1,21 @@
 let user;
-$.ajax({
-  url: 'https://randomuser.me/api/?nat=us&results=12',
-  dataType: 'json',
-  success: function(data) {
-    console.log('data');
-    console.log(data);
-    user = data.results;
-    user.forEach(populateGallery());
-  }
-});
+
 
 document.getElementsByClassName('search-container')[0].innerHTML ='<form action="#" method="get"><input type="search" id="search-input" class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit"></form>';
 //console.log(document.querySelectorAll('.search-container'));
 
 
-function populateGallery() {
+function populateGallery(item, index, array) {
+  $.ajax({
+    url: 'https://randomuser.me/api/?nat=us&results=12',
+    dataType: 'json',
+    success: function(data) {
+      console.log('data');
+      console.log(data);
+      user = data.results;
+      user.forEach(populateGallery());
+    }
+  });
 document.getElementById('gallery').innerHTML ='<div class="card"><div class="card-img-container"><img class="card-img" src="https://placehold.it/90x90" alt="profile picture"></div><div class="card-info-container"><h3 id="name" class="card-name cap">first last</h3><p class="card-text">email</p><p class="card-text cap">city, state</p></div></div>';
 let div1 = $(document.createElement('div'));
 div1.addClass('modal-container');
