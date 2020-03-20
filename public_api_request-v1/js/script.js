@@ -1,30 +1,33 @@
 let users;
-
+let selectedUser;
 
 document.getElementsByClassName('search-container')[0].innerHTML ='<form action="#" method="get"><input type="search" id="search-input" class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit"></form>';
 //console.log(document.querySelectorAll('.search-container'));
 
-
-
-function populateGallery(users) {
-users.forEach(user => { console.log(user);
-  document.getElementById('gallery').innerHTML +='<div class="card"><div class="card-img-container"><img class="card-img" src="'+ user.picture.large +'" alt="profile picture"/></div><div class="card-info-container"><h3 id="name" class="card-name cap">'+ user.name.first +' '+ user.name.last +'</h3><p class="card-text">'+ user.email +'</p><p class="card-text cap">'+ user.location.city +', '+ user.location.state +'</p></div></div>';
+function populateGallery() {
+users.forEach(user => { //console.log(user);
+  let div = document.createElement("div");
+  div.setAttribute("class", "card");
+  div.innerHTML = `<div class="card-img-container"><img class="card-img" src= ${user.picture.large} alt="profile picture"/></div><div class="card-info-container"><h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3><p class="card-text">${user.email }</p><p class="card-text cap">${user.location.city}, ${user.location.state}</p></div>`;
+  div.addEventListener('click', function(){
+    selectedUser = user;
+    console.log(selectedUser);
+  });
+  document.getElementById('gallery').appendChild(div);
 });
-
 };
 
 $.ajax({
-  url: 'https://randomuser.me/api/?nat=us&results=12',
+  url: ' https://fsjs-public-api-backup.herokuapp.com/api/?nat=us&results=12',
   dataType: 'json',
   success: function(data) {
   users = data.results;
-  populateGallery(users);
+  console.log(users);
+  populateGallery();
   }
 });
 
-$('#gallery').click(function() {
-  console.log('call');
-
+function createModal() {
   let div1 = document.createElement("div");
   div1.setAttribute("class", "modal-container");
   div1.setAttribute("id", "modal-container");
@@ -46,36 +49,37 @@ $('#gallery').click(function() {
   div2.appendChild(div3);
   let img = document.createElement("img");
   img.setAttribute("class", "modal-img");
-  img.setAttribute("src", "https://placehold.it/125x125");
+  img.setAttribute("src", selectedUser.picture.large);
   img.setAttribute("alt", "profile picture");
   div3.appendChild(img);
   let h3 = document.createElement("h3");
   h3.setAttribute("id", "name");
   h3.setAttribute("class", "modal-name cap");
-  h3.innerHTML= "name";
+  h3.innerHTML= selectedUser.name.first + ' ' + selectedUser.name.last;
   div3.appendChild(h3);
   let p1 = document.createElement("p");
   p1.setAttribute("class", "modal-text");
-  p1.innerHTML='email';
+  p1.innerHTML= selectedUser.email;
   div3.appendChild(p1);
   let p2 = document.createElement("p");
   p2.setAttribute("class", "modal-text cap");
-  p2.innerHTML="city";
+  p2.innerHTML=selectedUser.location.city + ', ' + selectedUser.location.state;
   div3.appendChild(p2);
   document.createElement("hr");
   let p3 = document.createElement("p");
   p3.setAttribute("class", "modal-text");
-  p3.innerHTML="(555) 555-5555";
+  p3.innerHTML=selectedUser.phone;
   div3.appendChild(p3);
   let p4 = document.createElement("p");
   p4.setAttribute("class", "modal-text");
-  p4.innerHTML="123 Portland Ave., Portland, OR 97204";
+  p4.innerHTML= selectedUser.location.street.number + ' ' + selectedUser.location.street.name + '., ' + selectedUser.location.city + ', ' + selectedUser.location.state + ' ' + selectedUser.location.postcode;
   div3.appendChild(p4);
   let p5 = document.createElement("p");
   p5.setAttribute("class", "modal-text");
-  p5.innerHTML="Birthday: 10/21/2015";
+  var date = new Date(selectedUser.dob.date);
+  var newdate= (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
+  p5.innerHTML="Birthday: " + newdate;
   div3.appendChild(p5);
-
   let div4 = document.createElement("div");
   div1.appendChild(div4);
   div4.setAttribute("class", "modal-btn-container");
@@ -85,13 +89,56 @@ $('#gallery').click(function() {
   button2.setAttribute("class", "modal-prev btn");
   button2.innerHTML="Prev";
   div4.appendChild(button2);
+  button2.addEventListener('click', function(){
+    console.log('echo click');
+    var currentIndex = users.indexOf(selectedUser);
+    if((currentIndex - 1) >= 0) {
+    //new selected user equals currentIndex minus 1 of users array
+    selectedUser = users[currentIndex - 1];
+    document.getElementById('modal-container').remove();
+    createModal();
+  }
+  });
+
   let button3 = document.createElement("button");
   button3.setAttribute("type", "button");
   button3.setAttribute("id", "modal-next");
   button3.setAttribute("class", "modal-next btn");
   button3.innerHTML="Next";
   div4.appendChild(button3);
+  button3.addEventListener('click', function(){
+    //next person
+    //console.log('echo next click');
+       var currentIndex = users.indexOf(selectedUser);
+       if((currentIndex + 1) < users.length){
+       selectedUser = users[currentIndex + 1];
+       document.getElementById('modal-container').remove();
+       createModal();
+}
 
+  });
+}
+
+$('#gallery').click(function() {
+  //console.log('call');
+  createModal();
 });
 
+function searchNames() {
+  let input = document.getElementById('#search-input').value;
+  let namesArray = [];
+  $('#name').each( function(i,e) {
+    namesArray.push($(e).attr('id'));
+  });
+  for( var i = 0; i < users.length; i++) {
+    if(document.getElementById('#name').textContent) {
+      searchResults.push(document.getElementsByClassName('card'));
+    }
+    // if(namesArray[i].toUpperCase().indexOf(input.value.toUpperCase()) > -1)) {
+    //   users[i].style.display = "";
+    // } else {
+    //   users[i].style.display = "none";
+    // }
+  }
+};
 //fetch('https://randomuser.me/api/?nat=us&results=12').
