@@ -11,3 +11,5 @@ header in styles.css:
 
 Added to .search-submit and .search-input in styles.css:
 box-shadow: 1px 1px 2px white, 0 0 1em gray, 0 0 0.2em gray;
+
+backup: https://fsjs-public-api-backup.herokuapp.com/api/
