@@ -1,31 +1,12 @@
-let users;
+let users = [];
 let selectedUser;
-
+let newArray;
 document.getElementsByClassName('search-container')[0].innerHTML ='<form action="#" method="get"><input type="search" id="search-input" class="search-input" placeholder="Search..."><input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit"></form>';
 //console.log(document.querySelectorAll('.search-container'));
 
-function populateGallery() {
-users.forEach(user => { //console.log(user);
-  let div = document.createElement("div");
-  div.setAttribute("class", "card");
-  div.innerHTML = `<div class="card-img-container"><img class="card-img" src= ${user.picture.large} alt="profile picture"/></div><div class="card-info-container"><h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3><p class="card-text">${user.email }</p><p class="card-text cap">${user.location.city}, ${user.location.state}</p></div>`;
-  div.addEventListener('click', function(){
-    selectedUser = user;
-    console.log(selectedUser);
-  });
-  document.getElementById('gallery').appendChild(div);
-});
-};
 
-$.ajax({
-  url: ' https://fsjs-public-api-backup.herokuapp.com/api/?nat=us&results=12',
-  dataType: 'json',
-  success: function(data) {
-  users = data.results;
-  console.log(users);
-  populateGallery();
-  }
-});
+
+
 
 function createModal() {
   let div1 = document.createElement("div");
@@ -100,6 +81,10 @@ function createModal() {
   }
   });
 
+
+
+
+
   let button3 = document.createElement("button");
   button3.setAttribute("type", "button");
   button3.setAttribute("id", "modal-next");
@@ -119,26 +104,67 @@ function createModal() {
   });
 }
 
-$('#gallery').click(function() {
-  //console.log('call');
-  createModal();
+
+function populateGallery() {
+users.forEach(user => { //console.log(user);
+  let div = document.createElement("div");
+  div.setAttribute("class", "card");
+  div.innerHTML = `<div class="card-img-container"><img class="card-img" src= ${user.picture.large} alt="profile picture"/></div><div class="card-info-container"><h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3><p class="card-text">${user.email }</p><p class="card-text cap">${user.location.city}, ${user.location.state}</p></div>`;
+  div.addEventListener('click', function(){
+    selectedUser = user;
+    console.log(selectedUser);
+    createModal();
+  });
+  document.getElementById('gallery').appendChild(div);
 });
+};
 
 function searchNames() {
-  let input = document.getElementById('#search-input').value;
-  let namesArray = [];
-  $('#name').each( function(i,e) {
-    namesArray.push($(e).attr('id'));
-  });
-  for( var i = 0; i < users.length; i++) {
-    if(document.getElementById('#name').textContent) {
-      searchResults.push(document.getElementsByClassName('card'));
+  //console.log('searchNames');
+  users = [];
+  let input = document.getElementById('search-input').value;
+  for(var i = 0; i < newArray.length; i++  ) {
+      let userName = newArray[i].name.first + " " + newArray[i].name.last;
+      if(userName.toLowerCase().includes(input.toLowerCase())) {
+        //users.push(JSON.parse(JSON.stringify(newArray[i])));
+          users.push(newArray[i]);
+          console.log(users);
+      }
     }
-    // if(namesArray[i].toUpperCase().indexOf(input.value.toUpperCase()) > -1)) {
-    //   users[i].style.display = "";
-    // } else {
-    //   users[i].style.display = "none";
-    // }
+    if(users.length == 0){
+      document.getElementById('gallery').innerHTML = 'No Match Found.';
+      let button = document.createElement('button');
+      button.innerHTML = 'Return to Employee List';
+      document.getElementById('gallery').appendChild(button);
+      button.addEventListener("click", (e) => {
+        document.getElementById('gallery').innerHTML = ' ';
+        users = newArray;
+        populateGallery();
+        document.getElementById('modal-container').remove();
+      })
+      //message showing no matches
+    }else {
+      document.getElementById('gallery').innerHTML = ' ';
+      populateGallery();
+    }
+
+  };
+  //clear Gallery
+  //loop through new arry to look for matches
+  //push matches to users
+  //call populate gallery
+  //if search bar has nothing in it the users = new array.
+
+document.getElementById('search-submit').addEventListener("click", (e) => {searchNames()});
+$.ajax({
+  url: ' https://fsjs-public-api-backup.herokuapp.com/api/?nat=us&results=12',
+  dataType: 'json',
+  success: function(data) {
+  users = data.results;
+  newArray = JSON.parse(JSON.stringify(users));
+  console.log(JSON.stringify(users));
+  console.log(users);
+  populateGallery();
   }
-};
+});
 //fetch('https://randomuser.me/api/?nat=us&results=12').

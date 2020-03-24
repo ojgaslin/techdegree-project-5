@@ -25,6 +25,7 @@ body {
 
 header {
     padding: 15px 5px 5px;
+    background: rgba(235, 235, 235, 0.4);
 }
 
 .header-inner-container {
@@ -33,10 +34,12 @@ header {
 }
 
 header h1 {
-    font-size: 1.50em;
-		font-weight: bold;
+    font-size: 1.25em;
+		font-weight: lighter;
     color: rgba(50, 50, 50, 0.9);
-    margin-top: 35px;
+    margin-top: 27px;
+		text-shadow: 1px 1px 2px white, 0 0 1em gray, 0 0 0.2em gray;
+
 }
 
 .search-input {
@@ -46,6 +49,7 @@ header h1 {
     max-width: 20rem;
     transition: .4s ease-out;
     outline: none;
+		box-shadow: 1px 1px 2px white, 0 0 1em gray, 0 0 0.2em gray;
 }
 
 .search-input:active, .search-input:hover, .search-input:focus {
@@ -60,6 +64,7 @@ header h1 {
     border: 1px solid rgba(200, 200, 200, 0.9);
     transition: .4s ease-out;
     outline: none;
+		box-shadow: 1px 1px 2px white, 0 0 1em gray, 0 0 0.2em gray;
 }
 
 .search-submit:active, .search-submit:hover, .search-submit:focus {
@@ -80,6 +85,7 @@ header h1 {
     width: 100%;
     max-width: 1200px;
     margin: auto;
+
 }
 
 .card {
