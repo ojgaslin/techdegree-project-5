@@ -100,29 +100,35 @@ function createModal() {
 			document.getElementById('modal-container')
 				.remove();
 			createModal();
+		} else if(currentIndex === 0) {
+			  button2.style.display = "none";
 		}
 	});
-  //create button to find next emmployee in list on modal
-	let button3 = document.createElement("button");
-	button3.setAttribute("type", "button");
-	button3.setAttribute("id", "modal-next");
-	button3.setAttribute("class", "modal-next btn");
-	button3.innerHTML = "Next";
-	div4.appendChild(button3);
-	button3.addEventListener('click', function() {
+	//create button to find next emmployee in list on modal
+		let button3 = document.createElement("button");
+		button3.setAttribute("type", "button");
+		button3.setAttribute("id", "modal-next");
+		button3.setAttribute("class", "modal-next btn");
+		button3.innerHTML = "Next";
+		div4.appendChild(button3);
 		//set currentIndex equal to index of current selectedUser
 		var currentIndex = users.indexOf(selectedUser);
-    //conditional if to make sure currentIndex plus 1 is not more than array length
-		if ((currentIndex + 1) < users.length) {
-      //new selectedUser equals currentIndex plus 1 of users array
-			selectedUser = users[currentIndex + 1];
-      //current modal is removed and createModal is called with new value
-			document.getElementById('modal-container')
-				.remove();
-			createModal();
-		}
+		button3.addEventListener('click', function() {
+	    //conditional if to make sure currentIndex plus 1 is not more than array length
+			if ((currentIndex + 1) < users.length) {
+	      //new selectedUser equals currentIndex plus 1 of users array
+				selectedUser = users[currentIndex + 1];
+	      //current modal is removed and createModal is called with new value
+				document.getElementById('modal-container')
+					.remove();
+				createModal();
+			} else if(currentIndex = users.length) {
+				 button3.style.display = "none";
+			}
+
 	});
 }
+
 //populate gallery with employee cards
 function populateGallery() {
   //for each item in array users, create the html for the card
