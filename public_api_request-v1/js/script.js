@@ -88,10 +88,15 @@ function createModal() {
 	button2.setAttribute("class", "modal-prev btn");
 	button2.innerHTML = "Prev";
 	div4.appendChild(button2);
+	//set currrentIndex equal to index of current selectedUser
+	var currentIndex = users.indexOf(selectedUser);
+	if(currentIndex === 0) {
+			button2.style.display = "none";
+	}
   //event listener for previous button
 	button2.addEventListener('click', function() {
     //set currrentIndex equal to index of current selectedUser
-		var currentIndex = users.indexOf(selectedUser);
+
     //conditional if to make sure currentIndex minus 1 is not less than 0
 		if ((currentIndex - 1) >= 0) {
 			//new selected user equals currentIndex minus 1 of users array
@@ -100,19 +105,24 @@ function createModal() {
 			document.getElementById('modal-container')
 				.remove();
 			createModal();
-		} else if(currentIndex === 0) {
-			  button2.style.display = "none";
 		}
 	});
 	//create button to find next emmployee in list on modal
+
 		let button3 = document.createElement("button");
 		button3.setAttribute("type", "button");
 		button3.setAttribute("id", "modal-next");
 		button3.setAttribute("class", "modal-next btn");
 		button3.innerHTML = "Next";
 		div4.appendChild(button3);
-		//set currentIndex equal to index of current selectedUser
 		var currentIndex = users.indexOf(selectedUser);
+		//console.log(users.length);
+		//console.log(currentIndex);
+		if(currentIndex === (users.length - 1)) {
+				button3.style.display = "none";
+		}
+		//set currentIndex equal to index of current selectedUser
+		//var currentIndex = users.indexOf(selectedUser);
 		button3.addEventListener('click', function() {
 	    //conditional if to make sure currentIndex plus 1 is not more than array length
 			if ((currentIndex + 1) < users.length) {
@@ -122,10 +132,7 @@ function createModal() {
 				document.getElementById('modal-container')
 					.remove();
 				createModal();
-			} else if(currentIndex = users.length) {
-				 button3.style.display = "none";
 			}
-
 	});
 }
 
