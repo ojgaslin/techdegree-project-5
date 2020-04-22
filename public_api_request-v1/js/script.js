@@ -91,7 +91,7 @@ function createModal() {
 	//set currrentIndex equal to index of current selectedUser
 	var currentIndex = users.indexOf(selectedUser);
 	if(currentIndex === 0) {
-			button2.style.display = "none";
+			button2.style.visibility = "hidden";
 	}
   //event listener for previous button
 	button2.addEventListener('click', function() {
@@ -119,7 +119,7 @@ function createModal() {
 		//console.log(users.length);
 		//console.log(currentIndex);
 		if(currentIndex === (users.length - 1)) {
-				button3.style.display = "none";
+				button3.style.visibility = "hidden";
 		}
 		//set currentIndex equal to index of current selectedUser
 		//var currentIndex = users.indexOf(selectedUser);
